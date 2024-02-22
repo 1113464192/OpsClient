@@ -1,16 +1,12 @@
 package middleware
 
 import (
-	"crypto/md5"
-	"encoding/hex"
+	"github.com/gin-gonic/gin"
 	"net"
 	"ops_client/configs"
 	"ops_client/internal/consts"
 	"ops_client/pkg/api"
 	"ops_client/pkg/util"
-	"strings"
-
-	"github.com/gin-gonic/gin"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
@@ -28,12 +24,12 @@ func AuthMiddleware() gin.HandlerFunc {
 			err     error
 		)
 
-		if localIp, err = util.GetLocalIp(); err != nil {
+		if localIp, err = util.GetLocalIp(configs.Conf.CustomCmd.LocalIpCmd, configs.Conf.CustomCmd.LocalIpApi); err != nil {
 			c.JSON(500, api.Err("获取本机IP失败", err))
 			c.Abort()
 			return
 		}
-		sign, err := Md5EncryptSign(localIp)
+		sign, err := util.EncryptClientAuthSign(localIp, configs.Conf.Auth.Key)
 		if err != nil {
 			c.JSON(500, api.Err("获取本机IP失败", err))
 			c.Abort()
@@ -44,25 +40,16 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		_, ipNet, _ := net.ParseCIDR(configs.Conf.ServerIp.AllowCidr)
+		_, ipNet, _ := net.ParseCIDR(configs.Conf.ServerSide.AllowCidr)
 		_, ipNetA, _ := net.ParseCIDR(consts.CIDRTypeA)
 		_, ipNetB, _ := net.ParseCIDR(consts.CIDRTypeB)
 		_, ipNetC, _ := net.ParseCIDR(consts.CIDRTypeC)
 		ip := net.ParseIP(serverIp)
-		if serverIp != "127.0.0.1" && serverIp != configs.Conf.ServerIp.Value && !ipNet.Contains(ip) && !ipNetA.Contains(ip) && !ipNetB.Contains(ip) && !ipNetC.Contains(ip) {
+		if serverIp != "127.0.0.1" && serverIp != configs.Conf.ServerSide.Ip && !ipNet.Contains(ip) && !ipNetA.Contains(ip) && !ipNetB.Contains(ip) && !ipNetC.Contains(ip) {
 			c.JSON(403, api.Err("您的IP不在许可IP中", nil))
 			c.Abort()
 			return
 		}
 		c.Next()
 	}
-}
-
-func Md5EncryptSign(ip string) (sign string, err error) {
-	builder := strings.Builder{}
-	builder.WriteString(configs.Conf.Auth.Key)
-	builder.WriteString(ip)
-	md5Hash := md5.Sum([]byte(builder.String()))
-	sign = hex.EncodeToString(md5Hash[:])
-	return sign, err
 }

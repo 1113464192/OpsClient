@@ -1,18 +1,17 @@
-serverIp:
-  value: "106.52.66.254"
+serverSide:
+  ip: "106.52.66.254"
   allowCidr: "106.52.66.0/24"
+  domain: "www.abc.com"
+  isSSL: "true" # 是否启用SSL
+  port: 8081
 
 auth:
   key: "bb53faabdfc3e2e8f9fba3e2d3"
 
 customCmd:
 #  获取本机IP的命令
-  getLocalIpCmd: "awk '{printf $1}' /data/common/server_ip"
+  localIpCmd: "awk '{printf $1}' /data/common/server_ip"
 #  访问后返回本机IP的网址(获取本机IP命令获取失败后执行)
-  getLocalIpApi: "https://api.ipify.org/?format=text"
-
-## C++游戏简写
-#cGame:
-#  values:
-#    - "hml"
-#    - "mxl"
+  localIpApi: "https://api.ipify.org/?format=text"
+#  查询单服数量的命令
+  gameSumCmd: 'find /data -maxdepth 1 -mindepth 1 -type d -regex ".*?_.*?_[a-zA-Z][0-9]+[a-zA-Z]" | wc -l'

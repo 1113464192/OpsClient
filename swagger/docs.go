@@ -24,7 +24,7 @@ const docTemplate = `{
                 "tags": [
                     "通用相关"
                 ],
-                "summary": "在单服执行命令",
+                "summary": "在本机执行命令",
                 "parameters": [
                     {
                         "type": "string",
@@ -37,53 +37,6 @@ const docTemplate = `{
                         "type": "string",
                         "name": "string",
                         "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{\"data\":{},\"meta\":{msg\":\"Success\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "401": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "403": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/general/server-info": {
-            "get": {
-                "description": "获取机器上所有单服信息",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "通用相关"
-                ],
-                "summary": "获取机器上所有单服信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "格式为：运维给的签名",
-                        "name": "ClientAuthSign",
-                        "in": "header",
                         "required": true
                     }
                 ],
@@ -143,118 +96,6 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/api/v1/update/exec": {
-            "post": {
-                "description": "执行最终的热更/闪断",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "更新相关"
-                ],
-                "summary": "执行热更/闪断",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "格式为：运维给的签名",
-                        "name": "ClientAuthSign",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "type参数：闪断:1 热更:2",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/api.UpdateExecReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{\"data\":{},\"meta\":{msg\":\"Success\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "401": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "403": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/update/server": {
-            "post": {
-                "description": "进行文件更新任务",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "更新相关"
-                ],
-                "summary": "进行文件更新",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "格式为：运维给的签名",
-                        "name": "ClientAuthSign",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "传入任务ID及目录切片",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/api.UpdateServerReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{\"data\":{},\"meta\":{msg\":\"Success\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "401": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "403": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "{\"data\":{}, \"meta\":{\"msg\":\"错误信息\", \"error\":\"错误格式输出(如存在)\"}}",
-                        "schema": {
-                            "$ref": "#/definitions/api.Response"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -276,41 +117,6 @@ const docTemplate = `{
                 "data": {},
                 "meta": {
                     "$ref": "#/definitions/api.Meta"
-                }
-            }
-        },
-        "api.UpdateExecReq": {
-            "type": "object",
-            "properties": {
-                "server_dir": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "tid": {
-                    "type": "integer"
-                },
-                "type": {
-                    "description": "闪断:1 热更:2",
-                    "type": "integer"
-                }
-            }
-        },
-        "api.UpdateServerReq": {
-            "type": "object",
-            "properties": {
-                "package_dir": {
-                    "type": "string"
-                },
-                "server_dir": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "tid": {
-                    "type": "integer"
                 }
             }
         }

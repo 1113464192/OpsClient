@@ -1,14 +1,17 @@
 package configs
 
 type Config struct {
-	ServerIp  ServerIp  `json:"server_ip"`
-	Auth      Auth      `json:"auth"`
-	CustomCmd CustomCmd `json:"custom_cmd"`
+	ServerSide ServerSide `json:"server_side"`
+	Auth       Auth       `json:"auth"`
+	CustomCmd  CustomCmd  `json:"custom_cmd"`
 }
 
-type ServerIp struct {
-	Value     string
+type ServerSide struct {
+	Ip        string
 	AllowCidr string
+	Domain    string
+	IsSSL     string
+	Port      string
 }
 
 type Auth struct {
@@ -16,8 +19,9 @@ type Auth struct {
 }
 
 type CustomCmd struct {
-	GetLocalIpCmd string
-	GetLocalIpApi string
+	LocalIpCmd string
+	LocalIpApi string
+	GameSumCmd string
 }
 
 var Conf = new(Config)

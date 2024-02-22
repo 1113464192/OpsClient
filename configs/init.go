@@ -3,15 +3,15 @@ package configs
 import (
 	"fmt"
 	"ops_client/pkg/logger"
-	"ops_client/pkg/util"
+	"ops_client/pkg/util2"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
 
 func Init() {
-	viper.SetConfigFile(util.GetRootPath() + "/configs/config.yaml")
-	// viper.SetConfigFile(util.GetRootPath() + "\\configs\\config.yaml")
+	viper.SetConfigFile(util2.GetRootPath() + "/configs/config.yaml")
+	// viper.SetConfigFile(util2.GetRootPath() + "\\configs\\config.yaml")
 	if err := viper.ReadInConfig(); err != nil {
 		panic(fmt.Errorf("读取配置信息失败: %s ", err))
 	}

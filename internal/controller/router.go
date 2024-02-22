@@ -23,12 +23,7 @@ func NewRoute() *gin.Engine {
 		v1.GET("ping1", Test1)
 		// ------------通用相关---------------
 		generalRoute := v1.Group("general")
-		generalRoute.GET("server-info", GetServerInfo)
 		generalRoute.POST("exec-command", ExecCommand)
-		// ------------更新相关----------------
-		updateRouter := v1.Group("update")
-		updateRouter.POST("server", UpdateServer)
-		updateRouter.POST("exec", UpdateExec)
 	}
 	return r
 }

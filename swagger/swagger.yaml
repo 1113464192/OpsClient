@@ -13,29 +13,6 @@ definitions:
       meta:
         $ref: '#/definitions/api.Meta'
     type: object
-  api.UpdateExecReq:
-    properties:
-      server_dir:
-        items:
-          type: string
-        type: array
-      tid:
-        type: integer
-      type:
-        description: 闪断:1 热更:2
-        type: integer
-    type: object
-  api.UpdateServerReq:
-    properties:
-      package_dir:
-        type: string
-      server_dir:
-        items:
-          type: string
-        type: array
-      tid:
-        type: integer
-    type: object
 info:
   contact: {}
 paths:
@@ -71,38 +48,7 @@ paths:
           description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
           schema:
             $ref: '#/definitions/api.Response'
-      summary: 在单服执行命令
-      tags:
-      - 通用相关
-  /api/v1/general/server-info:
-    get:
-      description: 获取机器上所有单服信息
-      parameters:
-      - description: 格式为：运维给的签名
-        in: header
-        name: ClientAuthSign
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"data":{},"meta":{msg":"Success"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "401":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "403":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "500":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-      summary: 获取机器上所有单服信息
+      summary: 在本机执行命令
       tags:
       - 通用相关
   /api/v1/ping1:
@@ -124,78 +70,4 @@ paths:
       summary: 测试Gin能否正常访问
       tags:
       - 测试相关
-  /api/v1/update/exec:
-    post:
-      description: 执行最终的热更/闪断
-      parameters:
-      - description: 格式为：运维给的签名
-        in: header
-        name: ClientAuthSign
-        required: true
-        type: string
-      - description: type参数：闪断:1 热更:2
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/api.UpdateExecReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"data":{},"meta":{msg":"Success"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "401":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "403":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "500":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-      summary: 执行热更/闪断
-      tags:
-      - 更新相关
-  /api/v1/update/server:
-    post:
-      description: 进行文件更新任务
-      parameters:
-      - description: 格式为：运维给的签名
-        in: header
-        name: ClientAuthSign
-        required: true
-        type: string
-      - description: 传入任务ID及目录切片
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/api.UpdateServerReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"data":{},"meta":{msg":"Success"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "401":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "403":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-        "500":
-          description: '{"data":{}, "meta":{"msg":"错误信息", "error":"错误格式输出(如存在)"}}'
-          schema:
-            $ref: '#/definitions/api.Response'
-      summary: 进行文件更新
-      tags:
-      - 更新相关
 swagger: "2.0"
