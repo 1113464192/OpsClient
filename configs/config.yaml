@@ -1,0 +1,18 @@
+serverIp:
+  value: "106.52.66.254"
+  allowCidr: "106.52.66.0/24"
+
+auth:
+  key: "bb53faabdfc3e2e8f9fba3e2d3"
+
+customCmd:
+#  获取本机IP的命令
+  getLocalIpCmd: "awk '{printf $1}' /data/common/server_ip"
+#  访问后返回本机IP的网址(获取本机IP命令获取失败后执行)
+  getLocalIpApi: "https://api.ipify.org/?format=text"
+
+## C++游戏简写
+#cGame:
+#  values:
+#    - "hml"
+#    - "mxl"
