@@ -11,5 +11,5 @@ import (
 func main() {
 	configs.Init()
 	r := controller.NewRoute()
-	r.Run(":22999")
+	r.Run(":9080")
 }
