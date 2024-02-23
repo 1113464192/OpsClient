@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"ops_client/configs"
+	"ops_client/internal/consts"
 	"ops_client/internal/service"
 	"ops_client/pkg/logger"
 	"ops_client/pkg/util"
@@ -32,29 +33,18 @@ func CronCalculationGameSum() {
 	}
 
 	// Send the POST request
-	var (
-		sslStr  string
-		ipValue string
-	)
-	if configs.Conf.ServerSide.IsSSL == "true" {
-		sslStr = "https"
-	} else if configs.Conf.ServerSide.IsSSL == "false" {
+
+	sslStr := "https"
+	if configs.Conf.ServerSide.IsSSL == "false" {
 		sslStr = "http"
-	} else {
-		logger.Log().Error("Cron", "ServerSide.IsSSL配置错误", configs.Conf.ServerSide.IsSSL)
-		return
 	}
 
-	if configs.Conf.ServerSide.Domain != "" {
-		ipValue = configs.Conf.ServerSide.Domain
-	} else if configs.Conf.ServerSide.Ip != "" {
+	ipValue := configs.Conf.ServerSide.Domain
+	if configs.Conf.ServerSide.Domain == "" && configs.Conf.ServerSide.Ip != "" {
 		ipValue = configs.Conf.ServerSide.Ip
-	} else {
-		logger.Log().Error("Cron", "ServerSide.Ip和ServerSide.Domain配置错误", configs.Conf.ServerSide.Ip, configs.Conf.ServerSide.Domain)
-		return
 	}
 
-	httpReqStr := fmt.Sprintf("%s://%s:%s/api/v1/client/gameSum", sslStr, ipValue, configs.Conf.ServerSide.Port)
+	httpReqStr := fmt.Sprintf("%s://%s:%s/%s", sslStr, ipValue, configs.Conf.ServerSide.Port, consts.ServerGameSumApiPath)
 	// Create a new request
 	req, err := http.NewRequest("POST", httpReqStr, bytes.NewBuffer(jsonData))
 	if err != nil {
