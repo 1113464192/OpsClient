@@ -1,12 +1,12 @@
 serverSide:
-  ip: "106.52.66.254"
-  allowCidr: "106.52.66.0/24"
+  ip: "192.168.111.111"
+  allowCidr: "172.16.12.0/24"
   domain: "www.abc.com"
   isSSL: "true" # 是否启用SSL
-  port: 8081
+  port: 8080
 
 auth:
-  key: "bb53faabdfc3e2e8f9fba3e2d3"
+  key: "arhgfdbgfghfgdsfsfgfds"
 
 customCmd:
 #  获取本机IP的命令
